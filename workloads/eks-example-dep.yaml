@@ -1,0 +1,39 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: eks-nginx
+  namespace: test
+  labels:
+    app: eks-nginx
+  annotations:
+    # Container Image Automated Updates
+    flux.weave.works/automated: "true"
+    # do not apply this manifest on the cluster
+    #flux.weave.works/ignore: "true"
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: eks-nginx
+  template:
+    metadata:
+      labels:
+        app: eks-nginx
+    spec:
+      containers:
+      - name: eks-nginx
+        image: 844577444516.dkr.ecr.eu-central-1.amazonaws.com/nginx:latest844577444516.dkr.ecr.eu-central-1.amazonaws.com/nginx:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 80
+          name: http
+          protocol: TCP
+        livenessProbe:
+          httpGet:
+            path: /
+            port: http
+        readinessProbe:
+          httpGet:
+            path: /
+            port: http
