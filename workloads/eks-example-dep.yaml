@@ -3,7 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: eks-nginx
-  namespace: test
+  namespace: eks-nginx
   labels:
     app: eks-nginx
   annotations:
